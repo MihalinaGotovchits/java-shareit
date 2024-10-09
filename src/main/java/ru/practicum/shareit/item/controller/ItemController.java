@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private static final String XSHARER = "X-Sharer-User-Id";
 
     @GetMapping("/{itemId}")
     public ItemDto getItem(@PathVariable Long itemId) {
@@ -24,7 +25,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getItemsByOwner(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> getItemsByOwner(@RequestHeader(XSHARER) Long userId) {
         log.info("GET / items");
         return itemService.getItemByOwner(userId);
     }
@@ -37,14 +38,14 @@ public class ItemController {
 
     @PostMapping
     public ItemDto save(@Validated(Create.class) @RequestBody ItemDto itemDto,
-                        @RequestHeader("X-Sharer-User-Id") Long userId) {
+                        @RequestHeader(XSHARER) Long userId) {
         log.info("POST / items / {}, {}", itemDto.getName(), userId);
         return itemService.save(itemDto, userId);
     }
 
     @PatchMapping("{itemId}")
     public ItemDto update(@PathVariable Long itemId, @RequestBody ItemDto itemDto,
-                          @RequestHeader("X-Sharer-User-Id") Long userId) {
+                          @RequestHeader(XSHARER) Long userId) {
         log.info("PATCH / items / {}", itemId);
         return itemService.update(itemId, itemDto, userId);
     }

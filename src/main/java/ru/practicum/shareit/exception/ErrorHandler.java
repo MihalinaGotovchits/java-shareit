@@ -13,35 +13,35 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse validateException(final MethodArgumentNotValidException e) {
+    public ErrorResponse validateException(MethodArgumentNotValidException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse entityNotFoundException(final NotFoundException e) {
+    public ErrorResponse entityNotFoundException(NotFoundException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse userNotUniqueEmailException(final NotUniqueEmailException e) {
+    public ErrorResponse userNotUniqueEmailException(NotUniqueEmailException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse notOwnerException(final NotOwnerException e) {
+    public ErrorResponse notOwnerException(NotOwnerException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleThrowable(final Throwable e) {
+    public ErrorResponse handleThrowable(Throwable e) {
         log.error(e.getMessage());
         return new ErrorResponse("Произошла непредвиденная ошибка.");
     }
