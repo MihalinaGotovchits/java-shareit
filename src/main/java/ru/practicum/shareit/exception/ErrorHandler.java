@@ -1,6 +1,7 @@
 package ru.practicum.shareit.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,35 +12,36 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler({MethodArgumentNotValidException.class, WrongDateException.class,
+            UnsupportedStatusException.class, IllegalArgumentException.class, ItemIsNotAvailableException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse validateException(MethodArgumentNotValidException e) {
+    public ErrorResponse handleBadRequest(RuntimeException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse entityNotFoundException(NotFoundException e) {
+    public ErrorResponse handleNotFound(NotFoundException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse userNotUniqueEmailException(NotUniqueEmailException e) {
+    public ErrorResponse handleDataIntegrityViolation(DataIntegrityViolationException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({IllegalApproveException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse notOwnerException(NotOwnerException e) {
+    public ErrorResponse handleNotOwner(NotOwnerException e) {
         log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(Throwable e) {
         log.error(e.getMessage());
