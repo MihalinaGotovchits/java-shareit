@@ -54,6 +54,7 @@ public class BookingControllerTest {
             new ItemDto(1L, "item"),
             new UserDtoShort(1L, "user"),
             null);
+    private final String XSHARER = "X-Sharer-User-Id";
 
     @Test
     void saveBooking() throws Exception {
@@ -63,7 +64,7 @@ public class BookingControllerTest {
                         .content(objectMapper.writeValueAsString(bookingDtoIn))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(XSHARER, 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(objectMapper.writeValueAsString(bookingDtoOut)));
@@ -78,7 +79,7 @@ public class BookingControllerTest {
                         .content(objectMapper.writeValueAsString(bookingDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(XSHARER, 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(objectMapper.writeValueAsString(bookingDtoOut)));
@@ -92,7 +93,7 @@ public class BookingControllerTest {
                         .content(objectMapper.writeValueAsString(bookingDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(XSHARER, 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(bookingDtoOut)));
@@ -107,7 +108,7 @@ public class BookingControllerTest {
                         .content(objectMapper.writeValueAsString(bookingDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(XSHARER, 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of(bookingDtoOut))));
@@ -122,7 +123,7 @@ public class BookingControllerTest {
                         .content(objectMapper.writeValueAsString(bookingDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(XSHARER, 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
