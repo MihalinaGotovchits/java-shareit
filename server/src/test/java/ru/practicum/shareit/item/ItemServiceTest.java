@@ -11,6 +11,7 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.exception.NotBookerException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.NotOwnerException;
 import ru.practicum.shareit.item.comment.Comment;
@@ -29,6 +30,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -225,4 +227,94 @@ class ItemServiceTest {
         Assertions.assertThrows(NotFoundException.class, () ->
                 itemService.saveComment(2L, new CommentDtoIn("abc"), id));
     }
+
+    @Test
+    void saveNewItem_whenNameIsNull_thenThrowsIllegalArgumentException() {
+        itemDtoIn.setName(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> itemService.save(itemDtoIn, id));
+    }
+
+    @Test
+    void saveNewItem_whenDescriptionIsNull_thenThrowsIllegalArgumentException() {
+        itemDtoIn.setDescription(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> itemService.save(itemDtoIn, id));
+    }
+
+    @Test
+    void saveNewItem_whenAvailableIsNull_thenThrowsIllegalArgumentException() {
+        itemDtoIn.setAvailable(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> itemService.save(itemDtoIn, id));
+    }
+
+    @Test
+    void updateItem_whenOnlyDescriptionIsProvided_thenUpdatedOnlyDescription() {
+        String newDescription = "Updated item description";
+        itemDtoIn.setDescription(newDescription);
+        itemDtoIn.setName(null);
+        itemDtoIn.setAvailable(null);
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(itemRepository.findById(id)).thenReturn(Optional.of(item));
+
+        ItemDtoOut actualItemDto = itemService.update(id, itemDtoIn, id);
+
+        Assertions.assertEquals(newDescription, actualItemDto.getDescription());
+        Assertions.assertEquals(item.getName(), actualItemDto.getName());
+        Assertions.assertEquals(item.getAvailable(), actualItemDto.getAvailable());
+    }
+
+    @Test
+    void updateItem_whenAvailableIsUpdated_thenUpdateAvailability() {
+        Boolean newAvailability = false;
+        itemDtoIn.setAvailable(newAvailability);
+        itemDtoIn.setName(null);
+        itemDtoIn.setDescription(null);
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(itemRepository.findById(id)).thenReturn(Optional.of(item));
+
+        ItemDtoOut actualItemDto = itemService.update(id, itemDtoIn, id);
+
+        Assertions.assertEquals(newAvailability, actualItemDto.getAvailable());
+        Assertions.assertEquals(item.getName(), actualItemDto.getName());
+        Assertions.assertEquals(item.getDescription(), actualItemDto.getDescription());
+    }
+
+    @Test
+    void saveComment_whenUserWasNotBooker_thenThrowsNotBookerException() {
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(itemRepository.findById(id)).thenReturn(Optional.of(item));
+        when(bookingRepository.existsByBookerIdAndItemIdAndEndBefore(anyLong(), anyLong(), any()))
+                .thenReturn(false);
+
+        Assertions.assertThrows(NotBookerException.class, () ->
+                itemService.saveComment(id, new CommentDtoIn("abc"), id));
+    }
+
+    @Test
+    void getItemBySearch_whenNoItemsFound_thenReturnEmptyList() {
+        when(itemRepository.search(any(), any())).thenReturn(Collections.emptyList());
+
+        List<ItemDtoOut> targetItems = itemService.getItemBySearch(0, 10, "nonexistent");
+
+        Assertions.assertTrue(targetItems.isEmpty());
+        Assertions.assertEquals(0, targetItems.size());
+        verify(itemRepository, times(1)).search(any(), any());
+    }
+
+    @Test
+    void getItemsByOwner_whenUserIsFoundButHasNoItems_thenReturnEmptyList() {
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(itemRepository.findAllByOwnerId(anyLong(), any())).thenReturn(Collections.emptyList());
+
+        List<ItemDtoOut> targetItems = itemService.getItemByOwner(0, 10, id);
+
+        Assertions.assertNotNull(targetItems);
+        Assertions.assertTrue(targetItems.isEmpty());
+        verify(itemRepository, times(1)).findAllByOwnerId(anyLong(), any());
+    }
+
 }

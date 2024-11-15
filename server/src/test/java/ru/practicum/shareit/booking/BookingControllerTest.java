@@ -126,4 +126,18 @@ public class BookingControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void saveBookingWithInvalidDates() throws Exception {
+        when(bookingService.saveNewBooking(any(), anyLong())).thenThrow(new IllegalArgumentException("Invalid booking dates"));
+
+        mvc.perform(post("/bookings")
+                        .content(objectMapper.writeValueAsString(bookingNullStart))
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-Sharer-User-Id", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("{\"error\":\"Invalid booking dates\"}"));
+    }
 }
