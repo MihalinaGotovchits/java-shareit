@@ -78,7 +78,7 @@ class UserDtoRequestTest {
 
         Set<ConstraintViolation<UserDtoRequest>> violations = validator.validate(user, Create.class);
         assertEquals(2, violations.size(), "Email exceeding max length should have a validation error");
-        assertEquals("size must be between 0 and 512", violations.iterator().next().getMessage());
+        assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -92,4 +92,3 @@ class UserDtoRequestTest {
         assertEquals("must not be empty", violations.iterator().next().getMessage());
     }
 }
-
