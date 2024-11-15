@@ -1,7 +1,6 @@
 package ru.practicum.shareit.item;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -17,12 +16,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-
-@Transactional
+@SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@SpringBootTest(
-        properties = "spring.datasource.username=test",
-        webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Transactional
 class ItemServiceIntegrationTest {
 
     private final EntityManager em;
@@ -36,6 +32,10 @@ class ItemServiceIntegrationTest {
                 .email("user@mail.ru")
                 .name("user")
                 .build();
+
+        // Сохраняем пользователя
+        UserDto user = userService.saveUser(userDto);
+
         ItemDtoIn itemDtoIn = ItemDtoIn.builder()
                 .name("item")
                 .description("nice item")
@@ -43,11 +43,11 @@ class ItemServiceIntegrationTest {
                 .requestId(null)
                 .build();
 
-        UserDto user = userService.saveUser(userDto);
         itemService.save(itemDtoIn, user.getId());
 
-        TypedQuery<Item> queryItem = em.createQuery("Select i from Item i where i.name like :item", Item.class);
-        Item item = queryItem.setParameter("item", itemDtoIn.getName()).getSingleResult();
+        var item = em.createQuery("Select i from Item i where i.name = :itemName", Item.class)
+                .setParameter("itemName", itemDtoIn.getName())
+                .getSingleResult();
 
         assertThat(item.getId(), notNullValue());
         assertThat(item.getName(), equalTo(itemDtoIn.getName()));
