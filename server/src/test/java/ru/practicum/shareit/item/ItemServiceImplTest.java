@@ -39,7 +39,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ItemServiceTest {
+class ItemServiceImplTest {
 
     @Mock
     private ItemRepository itemRepository;
@@ -316,5 +316,4 @@ class ItemServiceTest {
         Assertions.assertTrue(targetItems.isEmpty());
         verify(itemRepository, times(1)).findAllByOwnerId(anyLong(), any());
     }
-
 }
