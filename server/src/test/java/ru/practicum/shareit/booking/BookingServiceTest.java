@@ -11,7 +11,7 @@ import ru.practicum.shareit.booking.dto.BookingDtoOut;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
-import ru.practicum.shareit.booking.service.BookingServiceImpl;
+import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -40,7 +40,7 @@ public class BookingServiceTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private BookingServiceImpl bookingService;
+    private BookingService bookingService;
 
     private final User user = User.builder()
             .id(1L)
