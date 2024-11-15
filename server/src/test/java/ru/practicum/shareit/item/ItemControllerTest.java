@@ -52,8 +52,6 @@ public class ItemControllerTest {
             .owner(new UserDtoShort(1L, "user"))
             .build();
 
-    private final String XSHARER = "X-Sharer-User-Id";
-
     @Test
     void saveItem() throws Exception {
         when(itemService.save(any(), anyLong())).thenReturn(itemDtoOut);
@@ -62,7 +60,7 @@ public class ItemControllerTest {
                         .content(mapper.writeValueAsString(itemDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(itemDtoOut)))
@@ -80,7 +78,7 @@ public class ItemControllerTest {
                         .content(mapper.writeValueAsString(itemDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(itemDtoOut)))
@@ -98,7 +96,7 @@ public class ItemControllerTest {
                         .content(mapper.writeValueAsString(itemDtoOut))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(itemDtoOut.getId()), Long.class))
@@ -114,7 +112,7 @@ public class ItemControllerTest {
         mvc.perform(get("/items")
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(List.of(itemDtoOut))));
@@ -144,7 +142,7 @@ public class ItemControllerTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L))
+                        .header("X-Sharer-User-Id", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(commentDtoOut)))
                 .andExpect(jsonPath("$.id", is(commentDtoOut.getId()), Long.class))

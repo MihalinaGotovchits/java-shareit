@@ -39,8 +39,6 @@ class ItemRequestControllerTest {
             .created(LocalDateTime.of(2023, 7, 1, 12, 12, 12))
             .build();
 
-    private final String XSHARER = "X-Sharer-User-Id";
-
     @Test
     void saveNewRequest() throws Exception {
         when(requestService.saveNewRequest(any(), anyLong())).thenReturn(requestDto);
@@ -49,7 +47,7 @@ class ItemRequestControllerTest {
                         .content(mapper.writeValueAsString(requestDto))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(requestDto)))
@@ -66,7 +64,7 @@ class ItemRequestControllerTest {
                         .content(mapper.writeValueAsString(requestDto))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(List.of(requestDto))));
@@ -80,7 +78,7 @@ class ItemRequestControllerTest {
                         .content(mapper.writeValueAsString(requestDto))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(List.of(requestDto))));
@@ -94,7 +92,7 @@ class ItemRequestControllerTest {
                         .content(mapper.writeValueAsString(requestDto))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(XSHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(requestDto)));
