@@ -41,7 +41,7 @@ class CommentDtoRequestTest {
         assertEquals(1, violations.size(), "Blank comment should have a validation error");
 
         ConstraintViolation<CommentDtoRequest> violation = violations.iterator().next();
-        assertEquals("не должно быть пустым", violation.getMessage());
+        assertEquals("must not be blank", violation.getMessage());
     }
 
     @Test
@@ -53,7 +53,7 @@ class CommentDtoRequestTest {
         assertEquals(1, violations.size(), "Comment exceeding max length should have a validation error");
 
         ConstraintViolation<CommentDtoRequest> violation = violations.iterator().next();
-        assertEquals("размер должен находиться в диапазоне от 0 до 1000", violation.getMessage());
+        assertEquals("size must be between 0 and 1000", violation.getMessage());
     }
 
     @Test
@@ -65,7 +65,7 @@ class CommentDtoRequestTest {
         assertEquals(1, violations.size(), "Comment with null text should have a validation error");
 
         ConstraintViolation<CommentDtoRequest> violation = violations.iterator().next();
-        assertEquals("не должно быть пустым", violation.getMessage());
+        assertEquals("must not be blank", violation.getMessage());
     }
 }
 

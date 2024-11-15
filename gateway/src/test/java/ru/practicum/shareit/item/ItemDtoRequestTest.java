@@ -44,7 +44,7 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with blank name should have a validation error");
-        assertEquals("не должно быть пустым", violations.iterator().next().getMessage());
+        assertEquals("must not be blank", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -56,7 +56,7 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with blank description should have a validation error");
-        assertEquals("не должно быть пустым", violations.iterator().next().getMessage());
+        assertEquals("must not be blank", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -68,7 +68,7 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with null availability should have a validation error");
-        assertEquals("не должно равняться null", violations.iterator().next().getMessage());
+        assertEquals("must not be null", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -80,7 +80,7 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with name exceeding max length should have a validation error");
-        assertEquals("размер должен находиться в диапазоне от 0 до 255", violations.iterator().next().getMessage());
+        assertEquals("size must be between 0 and 1000", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -92,6 +92,6 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with description exceeding max length should have a validation error");
-        assertEquals("размер должен находиться в диапазоне от 0 до 1000", violations.iterator().next().getMessage());
+        assertEquals("size must be between 0 and 1000", violations.iterator().next().getMessage());
     }
 }

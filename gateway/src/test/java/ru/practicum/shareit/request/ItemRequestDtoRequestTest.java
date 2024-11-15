@@ -43,7 +43,7 @@ class ItemRequestDtoRequestTest {
 
         Set<ConstraintViolation<ItemRequestDtoRequest>> violations = validator.validate(request, Create.class);
         assertEquals(1, violations.size(), "Blank description should have a validation error");
-        assertEquals("не должно быть пустым", violations.iterator().next().getMessage());
+        assertEquals("must not be blank", violations.iterator().next().getMessage());
 
         violations = validator.validate(request, Update.class);
         assertEquals(1, violations.size(), "Blank description should have a validation error");
@@ -56,7 +56,7 @@ class ItemRequestDtoRequestTest {
 
         Set<ConstraintViolation<ItemRequestDtoRequest>> violations = validator.validate(request, Create.class);
         assertEquals(1, violations.size(), "Description exceeding max length should have a validation error");
-        assertEquals("размер должен находиться в диапазоне от 0 до 1000", violations.iterator().next().getMessage());
+        assertEquals("size must be between 0 and 1000", violations.iterator().next().getMessage());
 
         violations = validator.validate(request, Update.class);
         assertEquals(1, violations.size(), "Description exceeding max length should have a validation error");
@@ -69,7 +69,7 @@ class ItemRequestDtoRequestTest {
 
         Set<ConstraintViolation<ItemRequestDtoRequest>> violations = validator.validate(request, Create.class);
         assertEquals(1, violations.size(), "Null description should have a validation error");
-        assertEquals("не должно быть пустым", violations.iterator().next().getMessage());
+        assertEquals("must not be blank", violations.iterator().next().getMessage());
 
         violations = validator.validate(request, Update.class);
         assertEquals(1, violations.size(), "Null description should have a validation error");
