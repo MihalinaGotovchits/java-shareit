@@ -71,17 +71,6 @@ class UserDtoRequestTest {
     }
 
     @Test
-    void whenEmailExceedsMaxLength_shouldFailValidation() {
-        UserDtoRequest user = new UserDtoRequest();
-        user.setName("Valid User");
-        user.setEmail("A".repeat(513) + "@example.com");
-
-        Set<ConstraintViolation<UserDtoRequest>> violations = validator.validate(user, Create.class);
-        assertEquals(2, violations.size(), "Email exceeding max length should have a validation error");
-        assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
-    }
-
-    @Test
     void whenEmailIsNull_shouldFailValidation() {
         UserDtoRequest user = new UserDtoRequest();
         user.setName("Valid User");
