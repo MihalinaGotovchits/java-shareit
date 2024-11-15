@@ -17,9 +17,7 @@ import static org.hamcrest.Matchers.*;
 
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@SpringBootTest(
-        properties = "spring.datasource.username=test",
-        webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
 class UserServiceIntegrationTest {
 
     private final EntityManager em;
