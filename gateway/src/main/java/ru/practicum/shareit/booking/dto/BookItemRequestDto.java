@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.utils.Create;
 
 @Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookItemRequestDto {
