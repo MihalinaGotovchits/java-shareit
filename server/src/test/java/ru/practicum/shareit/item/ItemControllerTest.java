@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.comment.dto.CommentDtoOut;
 import ru.practicum.shareit.item.controller.ItemController;
 import ru.practicum.shareit.item.dto.ItemDtoOut;
@@ -148,5 +149,26 @@ public class ItemControllerTest {
                 .andExpect(jsonPath("$.id", is(commentDtoOut.getId()), Long.class))
                 .andExpect(jsonPath("$.text", is(commentDtoOut.getText())))
                 .andExpect(jsonPath("$.authorName", is(commentDtoOut.getAuthorName())));
+    }
+
+    @Test
+    void getItemById_whenItemNotFound_thenReturn404() throws Exception {
+        when(itemService.getItemById(anyLong(), anyLong())).thenThrow(new NotFoundException("Item not found"));
+
+        mvc.perform(get("/items/999")
+                        .header("X-Sharer-User-Id", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getItemsBySearch_whenTextIsBlank_thenReturnEmpty() throws Exception {
+        mvc.perform(get("/items/search")
+                        .param("from", "0")
+                        .param("size", "10")
+                        .param("text", "")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[]"));
     }
 }
