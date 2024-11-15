@@ -45,7 +45,7 @@ class UserDtoRequestTest {
 
         Set<ConstraintViolation<UserDtoRequest>> violations = validator.validate(user, Create.class);
         assertEquals(1, violations.size(), "User with blank name should have a validation error");
-        assertEquals("must not be empty", violations.iterator().next().getMessage());
+        assertEquals("must not be blank", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -67,7 +67,7 @@ class UserDtoRequestTest {
 
         Set<ConstraintViolation<UserDtoRequest>> violations = validator.validate(user, Create.class);
         assertEquals(1, violations.size(), "User with invalid email should have a validation error");
-        assertEquals("<must be a well-formed email address", violations.iterator().next().getMessage());
+        assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
     }
 
     @Test

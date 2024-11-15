@@ -80,7 +80,7 @@ class ItemDtoRequestTest {
 
         Set<ConstraintViolation<ItemDtoRequest>> violations = validator.validate(item, Create.class);
         assertEquals(1, violations.size(), "Item with name exceeding max length should have a validation error");
-        assertEquals("size must be between 0 and 1000", violations.iterator().next().getMessage());
+        assertEquals("size must be between 0 and 255", violations.iterator().next().getMessage());
     }
 
     @Test
