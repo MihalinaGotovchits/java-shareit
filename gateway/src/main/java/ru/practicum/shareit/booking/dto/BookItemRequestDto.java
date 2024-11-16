@@ -16,6 +16,9 @@ import ru.practicum.shareit.utils.Create;
 public class BookItemRequestDto {
     private Long id;
 
+    @NotNull(groups = {Create.class})
+    private long itemId;
+
     @FutureOrPresent(groups = {Create.class})
     @NotNull(groups = {Create.class})
     private LocalDateTime start;
