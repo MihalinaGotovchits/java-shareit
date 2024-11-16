@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS bookings (
     start_booking TIMESTAMP NOT NULL,
     end_booking TIMESTAMP NOT NULL,
     item_id BIGINT REFERENCES items (id),
-    booker BIGINT REFERENCES users (id),
+    booker_id BIGINT REFERENCES users (id),
     status varchar(50) NOT NULL
 );
 
