@@ -86,7 +86,7 @@ public class BookingControllerTest {
 
     @Test
     void getBookingById() throws Exception {
-        when(bookingService.getBookingById(anyLong(), anyLong())).thenReturn(bookingDtoOut);
+        when(bookingService.getBookingById(anyLong())).thenReturn(bookingDtoOut);
 
         mvc.perform(get("/bookings/1")
                         .content(objectMapper.writeValueAsString(bookingDtoOut))

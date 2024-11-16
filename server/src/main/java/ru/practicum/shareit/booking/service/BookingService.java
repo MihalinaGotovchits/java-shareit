@@ -65,14 +65,11 @@ public class BookingService {
     }
 
     @Transactional(readOnly = true)
-    public BookingDtoOut getBookingById(Long bookingId, Long userId) {
+    public BookingDtoOut getBookingById(Long bookingId) {
         log.info("Получение бронирования с Id {}", bookingId);
         Booking booking = getById(bookingId);
         User booker = booking.getBooker();
         User owner = getUser(booking.getItem().getOwner().getId());
-        if (!(booker.getId().equals(userId)) && !(owner.getId().equals(userId))) {
-            throw new NotBookerException("Только владелец может просматривать данное бронирование");
-        }
         return BookingMapper.toBookingDtoOut(booking);
     }
 

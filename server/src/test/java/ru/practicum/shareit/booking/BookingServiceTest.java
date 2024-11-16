@@ -167,7 +167,7 @@ public class BookingServiceTest {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        BookingDtoOut actualBooking = bookingService.getBookingById(1L, 1L);
+        BookingDtoOut actualBooking = bookingService.getBookingById(1L);
 
         Assertions.assertEquals(BookingMapper.toBookingDtoOut(booking), actualBooking);
     }

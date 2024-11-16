@@ -123,7 +123,7 @@ class BookingServiceSBTest {
 
         BookingDtoOut bookingDtoOut = bookingService.saveNewBooking(bookingDtoIn, user.getId());
 
-        BookingDtoOut retrievedBooking = bookingService.getBookingById(bookingDtoOut.getId(), user.getId());
+        BookingDtoOut retrievedBooking = bookingService.getBookingById(bookingDtoOut.getId());
 
         assertEquals(bookingDtoOut.getId(), retrievedBooking.getId());
     }

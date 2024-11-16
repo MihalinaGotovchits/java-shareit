@@ -37,8 +37,8 @@ public class BookingClient extends BaseClient {
         return patch("/" + bookingId + "?approved={approved}", userId, parameters, null);
     }
 
-    public ResponseEntity<Object> getBookingById(Long bookingId, Long userId) {
-        return get("/" + bookingId, userId);
+    public ResponseEntity<Object> getBookingById(Long bookingId) {
+        return get("/" + bookingId);
     }
 
     public ResponseEntity<Object> getAllByBooker(Integer from, Integer size, BookingState state, Long userId) {
