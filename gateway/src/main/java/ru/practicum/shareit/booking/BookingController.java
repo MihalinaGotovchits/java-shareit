@@ -39,7 +39,7 @@ public class BookingController {
 
     @GetMapping("/{bookingId}")
     public ResponseEntity<Object> getBooking(@PathVariable Long bookingId) {
-        log.info("Get booking {}, userId={}", bookingId);
+        log.info("Get booking {}", bookingId);
         return bookingClient.getBookingById(bookingId);
     }
 
