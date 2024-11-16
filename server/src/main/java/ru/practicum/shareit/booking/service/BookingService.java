@@ -152,7 +152,7 @@ public class BookingService {
     @Transactional(readOnly = true)
     public Booking getById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() ->
-                new NotFoundException("Бронирование с Id " + bookingId + "не найдено"));
+                new NotFoundException("Бронирование с Id " + bookingId + " не найдено"));
     }
 
     private User getUser(Long userId) {
